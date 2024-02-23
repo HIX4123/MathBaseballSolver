@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="author" content="SeworL"/>
+    <meta name="description" content="Math Game Solver helps you solve the game"/>
+
+    <title>Math Game Solver</title>
+
+    <link rel="stylesheet" href="style.css"/>
+  </head>
+
+  <body>
+    <h1>Math Game Solver</h1>
+    <form method="post">
+      <fieldset>
+        <legend>I'll guess you number and tell me if it is correct</legend>
+        <table>
+          {% for attempt in Attempts %}
+            <tr>
+              <td>Attempt
+                {{ forloop.counter }}</td>
+              <td>How about:
+                {{ attempt.guess }}</td>
+              {% if forloop.counter < 9 and attempt.guess != "No number is possible" and attempt.guess != "Wrong value" %}
+                <td>
+                  <button name="less_strike" value="{{ forloop.counter0 }}">
+                    &lt;
+                  </button>
+                  <label>{{ attempt.strike }}S</label>
+                  <button name="more_strike" value="{{ forloop.counter0 }}">
+                    &gt;
+                  </button>
+                  <button name="less_ball" value="{{ forloop.counter0 }}">
+                    &lt;
+                  </button>
+                  <label>{{ attempt.ball }}B</label>
+                  <button name="more_ball" value="{{ forloop.counter0 }}">
+                    &gt;
+                  </button>
+                </td>
+                <td>
+                  <button name="OK" value="{{ forloop.counter }}">
+                    OK
+                  </button>
+                </td>
+                <td>
+                  <label>Accuracy:
+                    {{ attempt.completeness }}%</label>
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </table>
+      </fieldset>
+      <button name="reset">
+        Reset</button>
+    </form>
+  </body>
+
+</html>
