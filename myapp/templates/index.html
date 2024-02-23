@@ -8,43 +8,51 @@
 
     <title>Math Game Solver</title>
 
-    <link rel="stylesheet" href="style.css"/>
+    <!-- <link rel="stylesheet" href="style.css"/> -->
   </head>
 
   <body>
     <h1>Math Game Solver</h1>
     <form method="post">
       <fieldset>
-        <legend>I'll guess you number and tell me if it is correct</legend>
+        <legend>I'll guess you number and tell me if it is correct<br>
+          Click number to copy</legend>
         <table>
           {% for attempt in Attempts %}
             <tr>
               <td>Attempt
-                {{ forloop.counter }}</td>
+                <label>{{ forloop.counter }}</label>
+              </td>
               <td>How about:
-                {{ attempt.guess }}</td>
+                <button onclick="copyToClipboard({{ attempt.guess }})">{{ attempt.guess }}</button>
+              </td>
               {% if forloop.counter < 9 and attempt.guess != "No number is possible" and attempt.guess != "Wrong value" %}
-                <td>
-                  <button name="less_strike" value="{{ forloop.counter0 }}">
-                    &lt;
-                  </button>
-                  <label>{{ attempt.strike }}S</label>
-                  <button name="more_strike" value="{{ forloop.counter0 }}">
-                    &gt;
-                  </button>
-                  <button name="less_ball" value="{{ forloop.counter0 }}">
-                    &lt;
-                  </button>
-                  <label>{{ attempt.ball }}B</label>
-                  <button name="more_ball" value="{{ forloop.counter0 }}">
-                    &gt;
-                  </button>
-                </td>
-                <td>
-                  <button name="OK" value="{{ forloop.counter }}">
-                    OK
-                  </button>
-                </td>
+                {%if attempt.completeness < 100 %}
+                  <td>
+                    <button name="less_strike" value="{{ forloop.counter0 }}">
+                      &lt;
+                    </button>
+                    <label>{{ attempt.strike }}S</label>
+                    <button name="more_strike" value="{{ forloop.counter0 }}">
+                      &gt;
+                    </button>
+                    <button name="less_ball" value="{{ forloop.counter0 }}">
+                      &lt;
+                    </button>
+                    <label>{{ attempt.ball }}B</label>
+                    <button name="more_ball" value="{{ forloop.counter0 }}">
+                      &gt;
+                    </button>
+                  </td>
+                  <td>
+                    <button name="OK" value="{{ forloop.counter }}">
+                      OK
+                    </button>
+                  </td>
+                {% else %}
+                  <td></td>
+                  <td></td>
+                {% endif %}
                 <td>
                   <label>Accuracy:
                     {{ attempt.completeness }}%</label>
@@ -57,6 +65,20 @@
       <button name="reset">
         Reset</button>
     </form>
+    <script type="text/javascript">
+      function copyToClipboard(text) {
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+        document
+          .body
+          .appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document
+          .body
+          .removeChild(textArea);
+      }
+    </script>
   </body>
 
 </html>
